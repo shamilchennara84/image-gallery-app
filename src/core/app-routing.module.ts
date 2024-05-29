@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ReportsComponent } from './pages/reports/reports.component';
-import { GridComponent } from './components/grid/grid.component';
-import { ImageGalleryComponent } from './components/image-gallery/image-gallery.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
@@ -18,9 +16,18 @@ const routes: Routes = [
       },
       {
         path: 'grid',
-        component: GridComponent,
+        loadComponent: () =>
+          import('./components/grid/grid.component').then(
+            (c) => c.GridComponent
+          ),
       },
-      { path: 'gallery', component: ImageGalleryComponent },
+      {
+        path: 'gallery',
+        loadComponent: () =>
+          import('./components/image-gallery/image-gallery.component').then(
+            (c) => c.ImageGalleryComponent
+          ),
+      },
     ],
   },
   { path: '**', component: PageNotFoundComponent },
