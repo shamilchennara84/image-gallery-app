@@ -9,9 +9,10 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { GridComponent } from './components/grid/grid.component';
 import { ImageGalleryComponent } from './components/image-gallery/image-gallery.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [AppComponent, ReportsComponent, GridComponent, ImageGalleryComponent],
+  declarations: [AppComponent, ReportsComponent, GridComponent, ImageGalleryComponent, PageNotFoundComponent],
   imports: [BrowserModule, AppRoutingModule, AgGridAngular, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

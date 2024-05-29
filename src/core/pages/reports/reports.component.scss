@@ -1,0 +1,36 @@
+.container {
+    padding: 25px;
+}
+
+.nav-tabs {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.nav-item {
+    list-style-type: none;
+    margin-right: 10px;
+}
+.nav-link {
+      text-decoration: none;
+      padding: 10px 15px;
+      display: inline-block;
+      border-bottom: 3px solid transparent;
+  }
+
+ .active {
+     border-bottom: 3px solid #5AA7EA;
+ }
+
+ 
+.nav-link:focus {
+  color: black; // Ensure the color is not red
+  transition: color 0s; // Immediately apply the color without transition
+}
+
+// .tab-content {
+//     padding: 20px;
+//     border: 1px solid #ddd;
+//     border-top: none;
+//     border-radius: 0 0 5px 5px;
+// }

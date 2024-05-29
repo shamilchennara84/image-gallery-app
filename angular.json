@@ -39,8 +39,9 @@
             "styles": [
               "src/styles.scss",
               "ag-grid-community/styles/ag-grid.css",
-              "ag-grid-community/styles/ag-theme-quartz.css"
-
+              "ag-grid-community/styles/ag-theme-quartz.css",
+              "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css",
+              "https://fonts.googleapis.com/css?family=Arvo"
             ],
             "scripts": []
           },
