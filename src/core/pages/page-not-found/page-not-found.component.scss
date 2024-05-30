@@ -1,27 +1,33 @@
 .not-found-container {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-top: 50px;
+  font-family: "Roboto";
 }
 
 .not-found-container h1 {
   font-size: 3em;
   margin-bottom: 20px;
+  font-weight: 400;
 }
 
 .not-found-container p {
   font-size: 1.5em;
   margin-bottom: 20px;
+  font-weight: 300;
 }
 
 .not-found-container a {
   display: inline-block;
   padding: 10px 20px;
   color: #fff;
-  background-color: #007bff;
+  background-color: #5aa7ea;
   text-decoration: none;
   border-radius: 5px;
 }
 
 .not-found-container a:hover {
-  background-color: #0056b3;
+  background-color: #257ad5;
 }
