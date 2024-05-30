@@ -1,15 +1,16 @@
 <div class="gallery">
   <div class="gallery-item" *ngFor="let image of images">
-    <img [src]="image.download_url" [alt]="image.author" />
+    <div>
+       <!-- <img [defaultImage]="'https://placehold.co/1000x1000?text=Loading...'" [lazyLoad]="image.download_url" [alt]="image.author" /> -->
+       <img [defaultImage]="'assets/placeholder.svg'" [lazyLoad]="image.download_url" [alt]="image.author" />
+    </div>
+   
     <div class="caption">
       <h4>
         {{ image.author }}
       </h4>
       <p>
         Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-        when an unknown printer took a galley of type and scrambled it to make a type
-        specimen book
       </p>
     </div>
   </div>

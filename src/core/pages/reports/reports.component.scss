@@ -1,5 +1,6 @@
 .container {
     padding: 25px;
+    
 }
 
 .nav-tabs {
@@ -24,13 +25,6 @@
 
  
 .nav-link:focus {
-  color: black; // Ensure the color is not red
-  transition: color 0s; // Immediately apply the color without transition
+  color: black; 
+  transition: color 0s; 
 }
-
-// .tab-content {
-//     padding: 20px;
-//     border: 1px solid #ddd;
-//     border-top: none;
-//     border-radius: 0 0 5px 5px;
-// }

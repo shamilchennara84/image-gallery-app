@@ -1,25 +1,28 @@
 .gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 5px;
 }
 
 .gallery-item {
-  flex: 1 1 calc(33.333% - 20px);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
   overflow: hidden;
   transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
 }
 
 .gallery-item img {
-  width: 100%;
+  max-inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  width: 95%; 
   height: auto;
-  display: block;
-}
-
-.gallery-item:hover {
-  transform: scale(1.02);
+  border-radius: 9px 9px 0px 0px ;
 }
 
 .caption {

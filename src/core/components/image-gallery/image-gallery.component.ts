@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 import { ImageData } from '../../models/imageData/image-data.model';
+import { LazyLoadImageModule } from 'ng-lazyload-image';
 
 @Component({
   selector: 'app-image-gallery',
   standalone:true,
-  imports:[CommonModule],
+  imports:[CommonModule,LazyLoadImageModule],
   templateUrl: './image-gallery.component.html',
   styleUrl: './image-gallery.component.scss',
 })
