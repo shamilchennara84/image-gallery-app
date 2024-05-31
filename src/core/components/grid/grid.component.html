@@ -1,7 +1,8 @@
-<ag-grid-angular #myGrid class="ag-theme-quartz" style="height: 70vh;overflow-y: auto;width: 100%;" [gridOptions]="gridOptions" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [paginationPageSizeSelector]=false       (gridReady)="onGridReady($event) ">
+<div *ngIf="loading" class="spinner">
+    <app-spinner></app-spinner>
+</div>
+
+<ag-grid-angular *ngIf="!loading" #myGrid class="ag-theme-quartz" style="height: 70vh;overflow-y: auto;width: 100%;" [gridOptions]="gridOptions" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [paginationPageSizeSelector]='false' (gridReady)="onGridReady($event) ">
 
 </ag-grid-angular>
-<div class="pagination-controls">
-  <button (click)="onPreviousPage()" [disabled]="currentPage === 1">Previous</button>
-  <button (click)="onNextPage()" [disabled]="currentPage === 2">Next</button>
-</div>
+
