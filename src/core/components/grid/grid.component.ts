@@ -7,9 +7,6 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { CommonModule } from '@angular/common';
 import { SpinnerComponent } from '../../../shared/spinner/spinner.component';
 
-
-
-
 interface CellRendererParams {
   value: string;
 }
