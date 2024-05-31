@@ -1,2 +1,7 @@
-<ag-grid-angular class="ag-theme-quartz" [rowData]="rowData" [columnDefs]="colDefs" style="height: 75vh;overflow-y: auto" [defaultColDef]="defaultColDef" [pagination]="true" [paginationPageSize]="30" (paginationChanged)="onPageChanged($event)">
+<ag-grid-angular #myGrid class="ag-theme-quartz" style="height: 70vh;overflow-y: auto;width: 100%;" [gridOptions]="gridOptions" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [paginationPageSizeSelector]=false       (gridReady)="onGridReady($event) ">
+
 </ag-grid-angular>
+<div class="pagination-controls">
+  <button (click)="onPreviousPage()" [disabled]="currentPage === 1">Previous</button>
+  <button (click)="onNextPage()" [disabled]="currentPage === 2">Next</button>
+</div>

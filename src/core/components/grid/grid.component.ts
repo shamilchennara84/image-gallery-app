@@ -1,9 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AgGridModule } from 'ag-grid-angular';
-import { ColDef, PaginationChangedEvent } from 'ag-grid-community';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
+import { ColDef, GridApi, GridOptions, GridReadyEvent, IDatasource, IGetRowsParams } from 'ag-grid-community';
 import { ImageService } from '../../services/image.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { ImageRowData } from '../../models/imageRowData/row-data.model';
+
+interface CellRendererParams {
+  value: string;
+}
 
 @Component({
   selector: 'app-grid',
@@ -12,59 +16,71 @@ import { ImageRowData } from '../../models/imageRowData/row-data.model';
   templateUrl: './grid.component.html',
   styleUrl: './grid.component.scss',
 })
-export class GridComponent implements OnInit, OnDestroy {
-  paginationSize:number = 30
-  private imagesSubscription: Subscription | undefined;
-  rowData: ImageRowData[] = [];
-  colDefs: ColDef[] = [
-    { headerName: 'Author', field: 'author' },
+export class GridComponent implements OnDestroy {
+  @ViewChild('myGrid') myGrid!: AgGridAngular;
+
+  gridApi!: GridApi;
+  imagesSubscription!: Subscription;
+  currentPage = 1;
+  pageSize = 30;
+
+  columnDefs: ColDef[] = [
+    { headerName: 'Author', field: 'author', filter: 'agTextColumnFilter' },
     {
       headerName: 'Dimensions',
       field: 'dimensions',
-      // valueGetter: (params) => `${params.data.width} x ${params.data.height}`,
     },
-    { headerName: 'URL', field: 'url' },{
-      headerName: 'Download Link',field:'dLink'
-    }
+    {
+      headerName: 'Image Link',
+      field: 'url',
+      cellRenderer: (params: CellRendererParams) =>
+        `<a href="${params.value}" target="_blank" style="text-decoration:none">${params.value}</a>`,
+      sortable: false,
+    },
   ];
 
-  paginationPageSize = 30;
   defaultColDef = {
     flex: 1,
-    midWidth: 100,
+    minWidth: 100,
   };
+
+  gridOptions: GridOptions = {
+    rowModelType: 'clientSide',
+    paginationPageSize: this.pageSize,
+  };
+
   constructor(private imageService: ImageService) {}
 
-  ngOnInit(): void {
-    this.fetchData(1);
+  onGridReady(params: GridReadyEvent): void {
+    this.gridApi = params.api;
+    this.loadPage(this.currentPage);
+  }
+  loadPage(page: number): void {
+    if (this.imagesSubscription) {
+      this.imagesSubscription.unsubscribe();
+    }
+
+    this.imagesSubscription = this.imageService.getImages(page, this.pageSize).subscribe((images) => {
+      const formattedImages = images.map((image) => ({
+        author: image.author,
+        dimensions: image.width && image.height ? `${image.width} x ${image.height}` : 'N/A',
+        url: image.url,
+      }));
+
+      this.gridApi.setRowData(formattedImages);
+    });
   }
 
-  fetchData(page: number): void {
-    this.imagesSubscription = this.imageService
-      .getImages(page)
-      .subscribe((images) => {
-        console.log(images[0]?.width);
-        this.rowData = images.map((image) => ({
-          author: image.author,
-          dimensions: image.width && image.height
-         ? `${image.width.toString()} x ${image.height.toString()}`
-          : 'N/A',
-          url: image.url,
-          dLink:image.download_url
-        }));
-      });
+  onNextPage(): void {
+    this.currentPage++;
+    this.loadPage(this.currentPage);
   }
 
-  onPageChanged(event: PaginationChangedEvent<any, any>): void {
-    const currentPage = event.api.paginationGetCurrentPage() + 1;
-    const pageSize = event.api.paginationGetRowCount();
-    const startRow = currentPage * pageSize + 1;
-    const endRow = Math.min(
-      startRow + pageSize - 1,
-      event.api.getDisplayedRowCount()
-    );
-
-    console.log(`Show rows from ${startRow} to ${endRow}`);
+  onPreviousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.loadPage(this.currentPage);
+    }
   }
 
   ngOnDestroy(): void {
