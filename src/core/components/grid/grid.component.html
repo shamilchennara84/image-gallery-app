@@ -1,2 +1,2 @@
-<ag-grid-angular class="ag-theme-quartz" [rowData]="rowData" [columnDefs]="colDefs" style="height: 500px;" [defaultColDef]="defaultColDef">
+<ag-grid-angular class="ag-theme-quartz" [rowData]="rowData" [columnDefs]="colDefs" style="height: 75vh;overflow-y: auto" [defaultColDef]="defaultColDef" [pagination]="true" [paginationPageSize]="30" (paginationChanged)="onPageChanged($event)">
 </ag-grid-angular>
