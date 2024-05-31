@@ -1,0 +1,79 @@
+.gallery {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(286px, 1fr));
+  gap: 20px;
+}
+
+.gallery-item {
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  overflow: hidden;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #d9d9d9;
+  border-radius: 9px 9px 6px 6px;
+}
+
+.gallery-item img {
+  max-inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  border-radius: 9px 9px 0px 0px;
+}
+
+img.ng-lazyloaded {
+  animation: fadein 2s;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+}
+
+.image-container img,
+.image-container .spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.caption {
+  font-family: "Roboto";
+  padding: 10px;
+  text-align: center;
+}
+
+.caption h4 {
+  font-weight: 600;
+}
+
+.caption p {
+  font-weight: 300;
+  color: rgb(147, 153, 158);
+}

@@ -1,0 +1,36 @@
+.container {
+  padding: 20px;
+
+  h1 {
+    font-family: "Roboto";
+    font-weight: 500;
+  }
+
+  .active {
+    border-bottom: 3px solid #5aa7ea;
+  }
+
+  nav {
+    .nav-tabs {
+      margin-bottom: 20px;
+      display: flex;
+
+      .nav-item {
+        list-style-type: none;
+        margin-right: 10px;
+
+        .nav-link {
+          font-family: "Roboto";
+          font-weight: 300;
+          text-decoration: none;
+          color: #4d4d4d;
+          padding: 10px 15px;
+          display: inline-block;
+          border-bottom: 3px solid transparent;
+
+         
+        }
+      }
+    }
+  }
+}
