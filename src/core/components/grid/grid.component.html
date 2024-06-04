@@ -1,8 +1,5 @@
-<div *ngIf="loading" class="spinner">
-    <app-spinner></app-spinner>
-</div>
 
-<ag-grid-angular *ngIf="!loading" #myGrid class="ag-theme-quartz" style="height: 70vh;overflow-y: auto;width: 100%;" [gridOptions]="gridOptions" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [paginationPageSizeSelector]='false' (gridReady)="onGridReady($event) ">
+<ag-grid-angular  #myGrid class="ag-theme-quartz" style="height: 70vh;overflow-y: auto;width: 90%;" [gridOptions]="gridOptions" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [sideBar]="true" [paginationPageSizeSelector]='false' (gridReady)="onGridReady($event) ">
 
 </ag-grid-angular>
 
