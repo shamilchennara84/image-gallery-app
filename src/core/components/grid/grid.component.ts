@@ -1,8 +1,28 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
-import { ColDef, GridApi, GridOptions, GridReadyEvent, IDatasource, IGetRowsParams } from 'ag-grid-community';
+import {
+  ColDef,
+  GridApi,
+  GridOptions,
+  GridReadyEvent,
+  IDatasource,
+  IGetRowsParams,
+  ModuleRegistry,
+} from 'ag-grid-community';
 import { ImageService } from '../../services/image.service';
 import { Subscription } from 'rxjs/internal/Subscription';
+
+import {
+  ColumnsToolPanelModule,
+  FiltersToolPanelModule,
+  SetFilterModule,
+} from 'ag-grid-enterprise';
+
+ModuleRegistry.registerModules([
+  ColumnsToolPanelModule,
+  FiltersToolPanelModule,
+  SetFilterModule,
+]);
 
 import { CommonModule } from '@angular/common';
 import { CustomCellRendererComponent } from '../../../shared/custom-cell-renderer/custom-cell-renderer.component';
@@ -51,13 +71,14 @@ export class GridComponent implements OnDestroy {
     flex: 1,
     minWidth: 100,
     sortable: false,
-    // allow every column to be aggregated
-    enableValue: true,
-    // allow every column to be grouped
-    enableRowGroup: true,
-    // allow every column to be pivoted
-    enablePivot: true,
+    enableValue: true, // allow every column to be aggregated
+    enableRowGroup: true, // allow every column to be grouped
+    enablePivot: true, // allow every column to be pivoted
     filter: true,
+  };
+
+   autoGroupColumnDef: ColDef = {
+    minWidth: 200,
   };
 
   gridOptions: GridOptions = {
@@ -73,25 +94,7 @@ export class GridComponent implements OnDestroy {
     infiniteInitialRowCount: 12, // Initial visible rows, includes a loading spinner row
     maxBlocksInCache: 4, // Cache size limit to prevent memory overflow
     debounceVerticalScrollbar: true,
-    sideBar: {
-      toolPanels: [
-        {
-          id: 'columns',
-          labelDefault: 'Columns',
-          labelKey: 'columns',
-          iconKey: 'columns',
-          toolPanel: 'agColumnsToolPanel',
-        },
-        {
-          id: 'filters',
-          labelDefault: 'Filters',
-          labelKey: 'filters',
-          iconKey: 'filter',
-          toolPanel: 'agFiltersToolPanel',
-        },
-      ],
-      defaultToolPanel: 'columns',
-    },
+
   };
 
   constructor(private imageService: ImageService) {}
