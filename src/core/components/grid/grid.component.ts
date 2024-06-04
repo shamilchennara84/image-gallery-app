@@ -1,21 +1,12 @@
 import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { AgGridAngular, AgGridModule } from 'ag-grid-angular';
-import {
-  ColDef,
-  GridApi,
-  GridOptions,
-  GridReadyEvent,
-  IDatasource,
-  IGetRowsParams,
- 
-} from 'ag-grid-community';
+import { ColDef, GridApi, GridOptions, GridReadyEvent, IDatasource, IGetRowsParams } from 'ag-grid-community';
 import { ImageService } from '../../services/image.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 import { CommonModule } from '@angular/common';
 import { CustomCellRendererComponent } from '../../../shared/custom-cell-renderer/custom-cell-renderer.component';
 import { ImageData } from '../../models/imageData/image-data.model';
-
 
 interface CellRendererParams {
   value: string;
@@ -70,6 +61,7 @@ export class GridComponent implements OnDestroy {
   };
 
   gridOptions: GridOptions = {
+    rowHeight: 70,
     pagination: true,
     paginationPageSize: 30,
     rowBuffer: 30,
