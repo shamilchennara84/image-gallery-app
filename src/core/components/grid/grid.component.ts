@@ -51,6 +51,7 @@ export class GridComponent implements OnDestroy {
       maxWidth: 100,
       valueGetter: 'node.id',
       cellRenderer: this.idCellRenderer,
+      filter: false,
     },
     {
       headerName: 'Author',
@@ -60,6 +61,7 @@ export class GridComponent implements OnDestroy {
     {
       headerName: 'Dimensions',
       field: 'dimensions',
+      filter: false,
     },
     {
       headerName: 'Image',
@@ -101,14 +103,14 @@ export class GridComponent implements OnDestroy {
   constructor(private imageService: ImageService) {}
 
   idCellRenderer(params: CellRendererParams): string {
-    return params.value ? params.value : '<img src="https://www.ag-grid.com/example-assets/loading.gif">';
+    return params.value ? params.value : '<img src="assets/loading.gif" alt="spinner">';
   }
 
   imageCellRenderer(params: CellRendererParams): string {
     const url = params.value;
 
     if (!url) {
-      return '<div class="image-cell"><img src="assets/loading.gif" alt="Placeholder"></div>';
+      return '<div class="image-cell"><img src="assets/loading.gif" alt="spinner"></div>';
     }
 
     const altText = 'Image Thumbnail';
