@@ -7,15 +7,26 @@ import {
   GridReadyEvent,
   IDatasource,
   IGetRowsParams,
- 
+  ModuleRegistry,
 } from 'ag-grid-community';
 import { ImageService } from '../../services/image.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 
+import {
+  ColumnsToolPanelModule,
+  FiltersToolPanelModule,
+  SetFilterModule,
+} from 'ag-grid-enterprise';
+
+ModuleRegistry.registerModules([
+  ColumnsToolPanelModule,
+  FiltersToolPanelModule,
+  SetFilterModule,
+]);
+
 import { CommonModule } from '@angular/common';
 import { CustomCellRendererComponent } from '../../../shared/custom-cell-renderer/custom-cell-renderer.component';
 import { ImageData } from '../../models/imageData/image-data.model';
-
 
 interface CellRendererParams {
   value: string;
@@ -44,6 +55,7 @@ export class GridComponent implements OnDestroy {
     {
       headerName: 'Author',
       field: 'author',
+      filter: 'agTextColumnFilter',
     },
     {
       headerName: 'Dimensions',
@@ -53,6 +65,7 @@ export class GridComponent implements OnDestroy {
       headerName: 'Image',
       field: 'url',
       cellRenderer: this.imageCellRenderer,
+      filter: false,
     },
   ];
 
@@ -60,16 +73,18 @@ export class GridComponent implements OnDestroy {
     flex: 1,
     minWidth: 100,
     sortable: false,
-    // allow every column to be aggregated
-    enableValue: true,
-    // allow every column to be grouped
-    enableRowGroup: true,
-    // allow every column to be pivoted
-    enablePivot: true,
+    enableValue: true, // allow every column to be aggregated
+    enableRowGroup: true, // allow every column to be grouped
+    enablePivot: true, // allow every column to be pivoted
     filter: true,
   };
 
+  autoGroupColumnDef: ColDef = {
+    minWidth: 200,
+  };
+
   gridOptions: GridOptions = {
+    rowHeight: 70,
     pagination: true,
     paginationPageSize: 30,
     rowBuffer: 30,
@@ -81,25 +96,6 @@ export class GridComponent implements OnDestroy {
     infiniteInitialRowCount: 12, // Initial visible rows, includes a loading spinner row
     maxBlocksInCache: 4, // Cache size limit to prevent memory overflow
     debounceVerticalScrollbar: true,
-    sideBar: {
-      toolPanels: [
-        {
-          id: 'columns',
-          labelDefault: 'Columns',
-          labelKey: 'columns',
-          iconKey: 'columns',
-          toolPanel: 'agColumnsToolPanel',
-        },
-        {
-          id: 'filters',
-          labelDefault: 'Filters',
-          labelKey: 'filters',
-          iconKey: 'filter',
-          toolPanel: 'agFiltersToolPanel',
-        },
-      ],
-      defaultToolPanel: 'columns',
-    },
   };
 
   constructor(private imageService: ImageService) {}
@@ -134,22 +130,52 @@ export class GridComponent implements OnDestroy {
   `;
   }
 
+  // dataSource: IDatasource = {
+  //   getRows: (params: IGetRowsParams) => {
+  //     const pageSize = this.gridOptions.paginationPageSize || 30;
+  //     const currentPage = Math.floor(params.startRow / pageSize) + 1;
+
+  //     this.imagesSubscription?.unsubscribe();
+
+  //     const observer = {
+  //       next: (images: ImageData[]) => {
+  //         const formattedImages = images.map((image) => ({
+  //           id: image,
+  //           author: image.author,
+  //           dimensions: image.width && image.height ? `${image.width} x ${image.height}` : 'N/A',
+  //           url: image.download_url,
+  //         }));
+  //         const lastRow = currentPage * pageSize >= 100 ? currentPage * pageSize : -1;
+  //         params.successCallback(formattedImages, lastRow);
+  //       },
+  //       error: (error: Error) => {
+  //         console.error('Error fetching images:', error);
+  //         params.failCallback();
+  //       },
+  //     };
+
+  //     this.imagesSubscription = this.imageService.getImages(currentPage, pageSize).subscribe(observer);
+  //   },
+  // };
+
   dataSource: IDatasource = {
     getRows: (params: IGetRowsParams) => {
       const pageSize = this.gridOptions.paginationPageSize || 30;
       const currentPage = Math.floor(params.startRow / pageSize) + 1;
+
+      const filterModel = params.filterModel;
 
       this.imagesSubscription?.unsubscribe();
 
       const observer = {
         next: (images: ImageData[]) => {
           const formattedImages = images.map((image) => ({
-            id: image,
+            id: image.id,
             author: image.author,
             dimensions: image.width && image.height ? `${image.width} x ${image.height}` : 'N/A',
             url: image.download_url,
           }));
-          const lastRow = currentPage * pageSize >= 100 ? currentPage * pageSize : -1;
+          const lastRow = formattedImages.length < pageSize ? params.startRow + formattedImages.length : -1;
           params.successCallback(formattedImages, lastRow);
         },
         error: (error: Error) => {
@@ -158,7 +184,7 @@ export class GridComponent implements OnDestroy {
         },
       };
 
-      this.imagesSubscription = this.imageService.getImages(currentPage, pageSize).subscribe(observer);
+      this.imagesSubscription = this.imageService.getImages(currentPage, pageSize, filterModel).subscribe(observer);
     },
   };
 

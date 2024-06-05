@@ -13,6 +13,7 @@
     "@ag-grid-community/angular": "^31.3.2",
     "@ag-grid-community/core": "^31.3.2",
     "@ag-grid-community/infinite-row-model": "^31.3.2",
+    "@ag-grid-enterprise/core": "^31.3.2",
     "@angular/animations": "^17.1.0",
     "@angular/common": "^17.1.0",
     "@angular/compiler": "^17.1.0",
