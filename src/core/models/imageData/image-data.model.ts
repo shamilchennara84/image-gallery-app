@@ -5,5 +5,7 @@ export interface ImageData {
   height: number;
   url: string;
   download_url: string;
-  loaded?:boolean
+  loaded?: boolean;
+  // Adjust the index signature to allow both string and number types, including undefined
+  [key: string]: string | number | boolean | undefined;
 }
