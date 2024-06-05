@@ -57,6 +57,9 @@ export class GridComponent implements OnDestroy {
       headerName: 'Author',
       field: 'author',
       filter: 'agTextColumnFilter',
+      filterParams: {
+        suppressAndOrCondition: true,
+      },
     },
     {
       headerName: 'Dimensions',
